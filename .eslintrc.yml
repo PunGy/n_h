@@ -1,0 +1,146 @@
+extends:
+  - eslint:recommended
+  - plugin:import/recommended
+  - plugin:import/typescript
+  - plugin:security/recommended
+settings:
+  import/resolver:
+    typescript:
+      extensionAlias:
+        ".js":
+          - ".ts"
+plugins:
+  - '@typescript-eslint/eslint-plugin'
+env:
+  node: true
+  es6: true
+
+overrides:
+  - files:
+      - "*.ts"
+      - "*.tsx"
+    extends:
+      - plugin:@typescript-eslint/eslint-recommended
+      - plugin:@typescript-eslint/recommended
+    parser: '@typescript-eslint/parser'
+    parserOptions:
+      tsconfigRootDir: ./
+      project: ./tsconfig.json
+      ecmaVersion: 2020
+      sourceType: module
+    rules:
+      no-unused-vars: off
+      '@typescript-eslint/no-var-requires': off
+      '@typescript-eslint/camelcase': off
+      '@typescript-eslint/explicit-module-boundary-types': off
+      '@typescript-eslint/no-explicit-any': off
+      '@typescript-eslint/no-unused-vars': warn
+      '@typescript-eslint/no-non-null-assertion': off # working pretty shitty
+      '@typescript-eslint/array-type':
+        - 2
+        - default: generic
+          readonly: generic
+      '@typescript-eslint/member-delimiter-style':
+        - 2
+        - multiline:
+            delimiter: semi
+            requireLast: true
+          singleline:
+            delimiter: semi
+            requireLast: true
+  - files:
+      - "*.tsx"
+    rules:
+      no-use-before-define: off # for placing styles after the logic
+
+
+rules:
+  semi:
+    - error
+    - never
+  max-len:
+    - warn
+    - code: 140
+  indent:
+    - error
+    - 4
+  quotes:
+    - error
+    - single
+    - allowTemplateLiterals: true
+  no-console: warn
+  no-alert: error
+  no-extra-boolean-cast: 'off'
+  array-callback-return: error
+  no-multi-spaces: error
+  no-return-await: error
+  no-self-compare: error
+  no-unused-expressions: error
+  no-unused-vars: warn
+  no-useless-return: error
+  radix: error
+  no-shadow: 'off'
+  no-prototype-builtins: off
+  no-use-before-define:
+    - error
+    - functions: false
+      classes: false
+  no-undef-init: error
+  array-bracket-newline:
+    - warn
+    - consistent
+  brace-style: 'off'
+  comma-dangle:
+    - error
+    - always-multiline
+  comma-spacing: error
+  comma-style: error
+  func-call-spacing: error
+  function-call-argument-newline:
+    - warn
+    - consistent
+  implicit-arrow-linebreak: error
+  key-spacing: error
+  keyword-spacing: error
+  newline-per-chained-call:
+    - error
+    - ignoreChainWithDepth: 3
+  no-trailing-spaces: error
+  no-unneeded-ternary: warn
+  no-whitespace-before-property: error
+  object-curly-spacing:
+    - error
+    - always
+  operator-assignment: error
+  operator-linebreak:
+    - error
+    - before
+  prefer-object-spread: error
+  wrap-regex: error
+  arrow-body-style: warn
+  arrow-spacing:
+    - error
+    - before: true
+      after: true
+  no-duplicate-imports: error
+  no-useless-rename: error
+  no-useless-constructor: error
+  no-var: error
+  object-shorthand: error
+  prefer-arrow-callback:
+    - error
+    - allowNamedFunctions: true
+  prefer-const: error
+  prefer-rest-params: error
+  prefer-spread: error
+  global-require: error
+  handle-callback-err: off
+  no-mixed-requires: error
+  no-new-require: error
+
+  # Import
+
+  import/no-cycle: error
+
+  # Security
+  security/detect-object-injection: off # Since we are using TypeScript, we are always sure about types passed into objects
