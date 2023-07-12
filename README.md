@@ -2,7 +2,7 @@
 
 ## Concept
 
-A library for creating HTTP services. It’s inspired by Express.js, Spring Boot, and mostly http4s. Aims to be convenient, type-safe, performant, and testable. Takes a lot of concepts from functional programming, but does not force you to deep into complicated concepts.
+A library for creating HTTP services. It’s mostly inspired by http4s, as well as Express.js, Spring Boot. Aims to be convenient, type-safe, performant, and testable. Takes a lot of concepts from functional programming, but does not force you to deep into complicated concepts.
 
 ## Code samples
 
