@@ -102,9 +102,9 @@ const productService = rootService
 		(req) => ProductModel.getProduct(req.id).then(Ok).catch(NotFound)
 	)
 	.post().use(productBodyDecoder).handler(
-		(req) => {
+		async (req) => {
 			const { image, title, description, price } = req.body
-			const path = ImageDomain.createImage(image)
+			const path = await ImageDomain.createImage(image)
 			return Ok(ProductDomain.createProduct({ title, description, price, image: path }))
 		}
 	)
