@@ -45,6 +45,8 @@ const session = Middleware.Session()
 
 const rootService = Service('/').use(corsPolicy, sessionMiddleware)
 
+// Works via Middleware.mapRequest
+// Automatically strictly preserves types 
 const loginBodyDecoder = Decoders.JSON.fromSchema(
 	Schema(t.struct({
 		email: t.string,
@@ -53,18 +55,23 @@ const loginBodyDecoder = Decoders.JSON.fromSchema(
 ).toMiddleware()
 
 const connectDatabaseMiddleware = Middleware.mapRequest(
+	// Create new request and set a 'db' parameter
 	req => connect().then(db => req.set('db', db))
 )
 
 const authService = rootService
-	.post().path('registration').use(loginBodyDecoder).handler(
+	// Create a bunch of POST handlers, parse body for each according to decoder middleware
+	.post().use(loginBodyDecoder)
+	// POST:/registration
+	.path('registration').handler(
 		(req) => {
 			const user = await addUser(db, req.body)
 			await updateSession(db, req.session.id)
 			return Ok()
 		}
 	)
-	.post().path('/login').use(loginBodyDecoder).handler(
+	// POST:/login
+	.path('/login').handler(
 		(req) => {
 			const { body } = req
 			const user = await getUser(req.db, body.email, body.password)
@@ -76,6 +83,7 @@ const authService = rootService
 			}
 		}
 	)
+
 
 const productBodyDecoder = Decoders.FormData.fromScheme(
 	Schema(t.struct({
